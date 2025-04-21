@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All posts</title>
+</head>
+<body>
+    <a href="{% url 'blog-home' %}">Back to home</a>
+    <h1>All Posts (Debug View)</h1>
+    {% for post in posts_data %}
+        <div style="border:1px solid #ccc; padding: 10px; margin-bottom: 10px;">
+            {% for key, value in post.items %}
+                <strong>{{ key }}:</strong> {{ value }}<br>
+            {% endfor %}
+            <a href="{% url 'delete-post' post.id %}">Delete</a>
+        </div>
+    {% empty %}
+        <p>No posts yet.</p>
+    {% endfor %}
+
+</body>
+</html>
