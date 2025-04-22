@@ -16,3 +16,15 @@
 ### Don't forget these
 
 - Django looks for registration inside templates/registration/...
+
+
+### what to do
+ - sign up should check if the username already exists
+ - logging in should lead to home page of the logged in user
+ - no pages should be accessible if not logged in
+ - posts should have author names
+ - what about the 
+
+### Users 
+ - pineforest 	pinecake
+ - tim 			timtaller

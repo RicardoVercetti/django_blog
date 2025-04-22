@@ -3,8 +3,10 @@ from .models import Post
 from django.forms.models import model_to_dict
 from .forms import PostForm
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import login
+from django.contrib.auth.decorators import login_required
+# from django.contrib.auth import login
 
+@login_required
 def home(request):
     posts = Post.objects.all().order_by('-date_posted')  # newest first
     return render(request, 'blog/home.html', {'posts': posts})
@@ -13,15 +15,17 @@ def home(request):
 #     posts = Post.objects.all()
 #     return render(request, 'blog/all_posts.html', {'posts': posts})
 
+@login_required
 def getAllPosts(request):
     posts = Post.objects.all()
     posts_data = [model_to_dict(post) for post in posts]
     return render(request, 'blog/all_posts.html', {'posts_data': posts_data})
 
+@login_required
 def create_post(request):
     if request.method == 'POST':
-        print(type(request.POST))
-        print(request.POST)
+        # print(type(request.POST))
+        # print(request.POST)
         form = PostForm(request.POST)
         if form.is_valid():
             form.save()
@@ -31,6 +35,7 @@ def create_post(request):
 
     return render(request, 'blog/create_post.html', {'form': form})
 
+@login_required
 def delete_post(request, post_id):
     post = get_object_or_404(Post, id=post_id)
 
@@ -40,8 +45,9 @@ def delete_post(request, post_id):
 
     return render(request, 'blog/delete_post.html', {'post': post})
 
-def register(request):
+def register(request):      # handles both GET and POST requests
     if request.method == 'POST':
+        # what if the user already exists?
         form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()  # creates the user

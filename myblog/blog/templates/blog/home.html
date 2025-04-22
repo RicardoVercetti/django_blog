@@ -6,26 +6,28 @@
 </head>
 <body>
         {% if user.is_authenticated %}
-        <p>Welcome, {{ user.username }}</p>
-        <form action="{% url 'logout' %}" method="post">
-            {% csrf_token %}
-            <button type="submit">Logout</button>
-        </form>
+            <p>Welcome, {{ user.username }}</p>
+            <form action="{% url 'logout' %}" method="post">
+                {% csrf_token %}
+                <button type="submit">Logout</button>
+            </form>
+
+            <a href="{% url 'all-posts' %}">See All Posts</a><br>
+            <a href="{% url 'create-post' %}">Create New Post</a><br>
+            <h1>Blog Posts</h1>
+            {% for post in posts %}
+                <div style="border:1px solid #ccc; padding: 10px; margin-bottom: 10px;">
+                    <h2>{{ post.title }}</h2>
+                    <p><em>{{ post.date_posted }}</em></p>
+                    <p>{{ post.content }}</p>
+                </div>
+            {% empty %}
+                <p>No posts yet.</p>
+            {% endfor %}
         {% else %}
             <p><a href="{% url 'login' %}">Login</a></p>
         {% endif %}
     
-    <a href="{% url 'all-posts' %}">See All Posts</a><br>
-    <a href="{% url 'create-post' %}">Create New Post</a><br>
-    <h1>Blog Posts</h1>
-    {% for post in posts %}
-        <div style="border:1px solid #ccc; padding: 10px; margin-bottom: 10px;">
-            <h2>{{ post.title }}</h2>
-            <p><em>{{ post.date_posted }}</em></p>
-            <p>{{ post.content }}</p>
-        </div>
-    {% empty %}
-        <p>No posts yet.</p>
-    {% endfor %}
+    
 </body>
 </html>
